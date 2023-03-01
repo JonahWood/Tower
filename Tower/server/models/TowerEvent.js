@@ -4,7 +4,7 @@ import { basicStringType, defaultSchemaOptions } from "../db/Constants.js";
 export const TowerEventSchema = new Schema({
 
     name: basicStringType,
-    description: {...basicStringType},
+    description: {...basicStringType, maxLength: 5000},
     coverImg: {...basicStringType},
     location: basicStringType,
     capacity: {type: Number, required: true},
