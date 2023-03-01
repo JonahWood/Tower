@@ -1,24 +1,27 @@
 import { dbContext } from "../db/DbContext"
 import { BadRequest, Forbidden } from "../utils/Errors"
+import { towerEventsService } from "./TowerEventsService"
 
 class TicketsService{
-    async deleteTicket(ticketId, requesterId, ticketData) {
-        const towerEvent = await dbContext.TowerEvents.findById(ticketData.eventId)
-        const ticket = await dbContext.Tickets.findById(ticketId)
-        if (!ticketId) {
-            throw new BadRequest('Invalid Ticket Id')
+    async deleteTicket(ticketId, accountId) {
+        const ticket = await dbContext.Tickets.findById(ticketId).populate('event profile')
+        if (!ticket) {
+            throw new BadRequest('Invalid Ticket Id, bub')
         }
         // @ts-ignore
-        if (ticket.accountId.toString() !== requesterId) {
+        if (ticket.accountId.toString() !== accountId) {
             throw new Forbidden('I know who you are.')
         }
         // @ts-ignore
-        towerEvent.capacity++
-        // @ts-ignore
-        await towerEvent.save()
+        const towerEvent = await towerEventsService.getOneEventById(ticket.eventId)
+        if (towerEvent.isCanceled) {
+            throw new BadRequest('Event has already been canceled')
+        }
         // @ts-ignore
         await ticket.remove()
-        return 'Ticket Deleted'
+        towerEvent.capacity++
+        await towerEvent.save()
+        return ticket
     }
     async getTicketByEventId(eventId) {
         const tickets = await dbContext.Tickets.find({eventId})
