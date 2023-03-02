@@ -62,6 +62,8 @@ export default {
 
 
 .eventCard {
+    background-position: center;
+    background-size: cover;
     height: 30vh;
     border: 5px solid #474c61;
     color: white;
