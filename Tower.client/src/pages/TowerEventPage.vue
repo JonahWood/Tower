@@ -14,26 +14,46 @@
                             <div v-if="(towerEvent.capacity > 0)" class="ultra-margin">
                                 <h5>
                                     <span class="heavier-shadow text-success">{{ towerEvent.capacity }}</span>
-                                    spots left <button class="Attend rounded bg-gradient">Attend <i
+                                    spots left <button @click="getTicket()" class="Attend rounded bg-gradient">Attend <i
                                             class="mdi mdi-plus-box"></i></button>
                                 </h5>
                             </div>
                             <div v-else class="ultra-margin">
                                 <h5>
                                     <span class="heavier-shadow text-danger">{{ towerEvent.capacity }}</span>
-                                    spots left
+                                    spots left <button disabled @click="getTicket()"
+                                        class="Attend rounded bg-gradient">Attend
+                                        <i class="mdi mdi-plus-box"></i></button>
                                 </h5>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-5">
-                <!-- comments are gonna go here, hope you had a good lunch future me! -->
+            <!-- <div v-if="" class="col-12 mt-5">
+                Those who are attending will be displayed here
+            </div> -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="row mt-5 comment-background p-2 rounded">
+            <div class="offset-1 col-10 mb-5">
+                <form @submit.prevent="createComment()">
+                    <div class="form-floating">
+                        <input title="Comment Field" v-model="liveComment.body" class="form-control comment-form w-100"
+                            type="text">
+                        <label class="text-dark">Tell the People...</label>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button class="submit-button rounded mt-1" type="submit" title="Submit Comment">post
+                            comment</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 mb-4" v-for="c in comments" :key="c.id">
+                <Comment :comment="c" />
             </div>
         </div>
-
-
     </div>
 </template>
 
@@ -43,45 +63,85 @@ import { computed, onMounted, ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { AppState } from '../AppState';
 import { towerEventsService } from '../services/TowerEventsService';
+import { commentsService } from '../services/CommentsService';
+import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
+import Comment from '../components/Comment.vue';
 
 
 
 export default {
     setup() {
-        const route = useRoute()
-        const router = useRouter()
-
-
+        const liveComment = ref({})
+        const route = useRoute();
+        const router = useRouter();
+        async function getComments() {
+            try {
+                await towerEventsService.getComments(route.params.eventId);
+            }
+            catch (error) {
+                Pop.error(error.message);
+                logger.error("this is from the getComments:", error);
+            }
+        }
         async function getOneEventById() {
             try {
-                const eventId = route.params.eventId
-                await towerEventsService.getOneEventById(eventId)
-            } catch (error) {
-                Pop.error('we don\'t take kindly to your types around here')
-                router.push('/')
+                const eventId = route.params.eventId;
+                await towerEventsService.getOneEventById(eventId);
+            }
+            catch (error) {
+                Pop.error("we don't take kindly to your types around here");
+                router.push("/");
             }
         }
-
         onMounted(() => {
-            getOneEventById()
-        })
-
-
+            getOneEventById();
+            getComments();
+        });
         watchEffect(() => {
             if (route.params.eventId) {
-                getOneEventById()
+                getOneEventById();
             }
-        })
+        });
         return {
+            liveComment,
             towerEvent: computed(() => AppState.towerEvent),
-        }
-    }
+            comments: computed(() => AppState.comments),
+            async getTicket() {
+                logger.log("attended");
+            },
+            async createComment() {
+                try {
+                    liveComment.value.eventId = route.params.eventId
+                    await commentsService.createComment(liveComment.value)
+                    liveComment.value = {}
+                } catch (error) {
+                    Pop.error(error.message)
+                    logger.error(error)
+                }
+            }
+        };
+    },
+    components: { Comment }
 }
 </script>
 
 
 <style lang="scss" scoped>
+.submit-button {
+    padding: 1vh;
+    color: black;
+    background-color: #79e7ab;
+}
+
+.comment-background {
+    background-color: #474c61;
+}
+
+.comment-form {
+    min-height: 5vh;
+}
+
 .Attend {
     padding: 1vh;
     padding-left: 2vh;
@@ -90,6 +150,7 @@ export default {
     background-color: #ffd464;
     margin-left: 55vh;
     border: 0px solid black;
+    box-shadow: 3px 3px 8px black;
 }
 
 .ultra-margin {
