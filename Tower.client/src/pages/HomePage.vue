@@ -3,7 +3,7 @@
     <div class="row">
       <div class="offset-1 col-10 text-light">
         <div class="cover-card">
-          <div class="cover-glass bg-gradient">
+          <div class="cover-glass bg-gradient rounded">
             <p class="">Get aHEAD of the scalpers.</p>
             <p class="ms-3">Become one of the scalpers.</p>
             <p class="at-tower">Here at Tower, all your scalping dreams can come true.</p>
@@ -59,7 +59,7 @@ export default {
 
 <style scoped lang="scss">
 .cover-glass {
-  background-color: rgba(128, 128, 128, 0.062);
+  background-color: rgba(128, 128, 128, 0);
   margin-right: 45vh;
 }
 
