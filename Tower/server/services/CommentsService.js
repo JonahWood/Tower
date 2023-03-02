@@ -6,9 +6,9 @@ class CommentsService{
     async deleteComment(commentId, userId) {
         const comment = await dbContext.Comments.findById(commentId)
         // @ts-ignore
-        // if (userId !== comment.creatorId) {
-        //     throw new Forbidden('I know who you are, bub')
-        // }
+        if (userId != comment.creatorId) {
+            throw new Forbidden('I know who you are, bub')
+        }
         if (!comment) {
             throw new BadRequest('NonExistent Comment')
         }
