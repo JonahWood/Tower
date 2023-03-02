@@ -11,10 +11,12 @@
         </div>
       </div>
       <span class="offset-1 col-10 rounded nav-buttons mt-2 mb-1">
-        <button class="nav-button selectable w-25">concert</button>
-        <button class="nav-button selectable w-25">convention</button>
-        <button class="nav-button selectable w-25">sport</button>
-        <button class="nav-button selectable w-25">digital</button>
+        <button @click="changeFilterType('')" class="nav-button selectable w-25">All</button>
+        <button @click="changeFilterType('concert')" class="nav-button selectable w-25">Concert</button>
+        <button @click="changeFilterType('convention')" class="nav-button selectable w-25">Convention</button>
+        <button @click="changeFilterType('sport')" class="nav-button selectable w-25">Sport</button>
+        <button @click="changeFilterType('digital')" class="nav-button selectable w-25">Digital</button>
+
       </span>
       <div class="col-3" v-for="t in towerEvents" :key="t.id">
         <TowerEvent :towerEvent="t" />
@@ -33,7 +35,7 @@ import TowerEvent from '../components/TowerEvent.vue';
 
 export default {
   setup() {
-    const filterCategory = ref("");
+    const filterType = ref("");
     async function getAllEvents() {
       try {
         await towerEventsService.getAllEvents();
@@ -48,12 +50,20 @@ export default {
     });
     return {
       towerEvents: computed(() => {
-        if (!filterCategory.value) {
+        if (!filterType.value) {
           return AppState.towerEvents;
         }
-        // else {
-        // }
-      })
+        else {
+          return AppState.towerEvents.filter(t => t.type == filterType.value)
+        }
+      }),
+      tickets: computed(() => AppState.tickets),
+      account: computed(() => AppState.account),
+
+
+      changeFilterType(type) {
+        filterType.value = type
+      }
     };
   },
   components: { TowerEvent }
@@ -67,10 +77,11 @@ export default {
   border-top: 0px solid black;
   border-left: 0px solid black;
   border-right: 0px solid black;
-  border-bottom: 2px solid #8dff83a0;
+  border-bottom: 0px solid #8dff83a0;
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
 
 .nav-buttons {
   background-color: #474c61;
