@@ -17,6 +17,10 @@ class TowerEventsService {
         
     }
 
+    async getTickets(eventId){
+const res = await api.get('api/events/' + eventId + '/tickets')
+AppState.attendees = res.data
+    }
 
     async getOneEventById(eventId) {
         AppState.towerEvent = null

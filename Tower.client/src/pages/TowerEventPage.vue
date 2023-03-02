@@ -11,7 +11,8 @@
                             <h2>{{ towerEvent.name }}</h2>
                             <h3 class="text-secondary">{{ towerEvent.location }}</h3>
                             <h6 class="lighter-text-weight">{{ towerEvent.description }}</h6>
-                            <div v-if="(towerEvent.capacity > 0)" class="ultra-margin">
+                            <div v-if="(towerEvent.capacity > 0) && (!towerEvent.isCanceled) && (!isAttending)"
+                                class="ultra-margin">
                                 <h5>
                                     <span class="heavier-shadow text-success">{{ towerEvent.capacity }}</span>
                                     spots left <button @click="getTicket()" class="Attend rounded bg-gradient">Attend <i
@@ -20,7 +21,7 @@
                             </div>
                             <div v-else class="ultra-margin">
                                 <h5>
-                                    <span class="heavier-shadow text-danger">{{ towerEvent.capacity }}</span>
+                                    <span class="heavier-shadow text-success">{{ towerEvent.capacity }}</span>
                                     spots left <button disabled @click="getTicket()"
                                         class="Attend rounded bg-gradient">Attend
                                         <i class="mdi mdi-plus-box"></i></button>
@@ -30,9 +31,11 @@
                     </div>
                 </div>
             </div>
-            <!-- <div v-if="" class="col-12 mt-5">
-                Those who are attending will be displayed here
-            </div> -->
+            <div v-if="attendees.length > 0" class="col-12 my-3 attendee-background rounded">
+                <h6>Attendees:</h6>
+                <img :title="a.profile.name" v-for="a in attendees" class="profile-picture" :src="a.profile.picture"
+                    :alt="a.profile.name">
+            </div>
         </div>
     </div>
     <div class="container">
@@ -50,6 +53,7 @@
                     </div>
                 </form>
             </div>
+
             <div class="col-12 mb-4" v-for="c in comments" :key="c.id">
                 <Comment :comment="c" />
             </div>
@@ -64,6 +68,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { AppState } from '../AppState';
 import { towerEventsService } from '../services/TowerEventsService';
 import { commentsService } from '../services/CommentsService';
+import { ticketsService } from '../services/TicketsService';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
 import Comment from '../components/Comment.vue';
@@ -75,6 +80,7 @@ export default {
         const liveComment = ref({})
         const route = useRoute();
         const router = useRouter();
+
         async function getComments() {
             try {
                 await towerEventsService.getComments(route.params.eventId);
@@ -94,9 +100,19 @@ export default {
                 router.push("/");
             }
         }
+
+        async function getTickets() {
+            try {
+                await towerEventsService.getTickets(route.params.eventId)
+            } catch (error) {
+                Pop.error(error.message)
+                logger.error(error)
+            }
+        }
         onMounted(() => {
             getOneEventById();
             getComments();
+            getTickets();
         });
         watchEffect(() => {
             if (route.params.eventId) {
@@ -107,9 +123,18 @@ export default {
             liveComment,
             towerEvent: computed(() => AppState.towerEvent),
             comments: computed(() => AppState.comments),
+            attendees: computed(() => AppState.attendees),
+            isAttending: computed(() => AppState.attendees.find(a => a.accountId == AppState.account.id)),
+
             async getTicket() {
-                logger.log("attended");
+                try {
+                    await ticketsService.getTicket({ eventId: route.params.eventId })
+                } catch (error) {
+                    Pop.error(error.message)
+                    logger.error(error)
+                }
             },
+
             async createComment() {
                 try {
                     liveComment.value.eventId = route.params.eventId
@@ -128,6 +153,13 @@ export default {
 
 
 <style lang="scss" scoped>
+.profile-picture {
+    height: 5vh;
+    width: 5vh;
+    border-radius: 50%;
+    box-shadow: 2px 2px 4px black;
+}
+
 .submit-button {
     padding: 1vh;
     color: black;
@@ -135,6 +167,11 @@ export default {
 }
 
 .comment-background {
+    background-color: #474c61;
+}
+
+.attendee-background {
+    padding: 1vh;
     background-color: #474c61;
 }
 
