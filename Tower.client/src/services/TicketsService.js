@@ -8,6 +8,11 @@ class TicketsService{
         AppState.myTickets.push(res.data)
         AppState.towerEvent.capacity--
     }
+
+    async getTicketsByUser(){
+        const res = await api.get('account/tickets')
+        AppState.myTickets = res.data
+    }
 }
 
 export const ticketsService = new TicketsService
