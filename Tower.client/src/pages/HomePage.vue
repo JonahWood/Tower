@@ -9,10 +9,13 @@
             <p class="at-tower">Here at Tower, all your scalping dreams can come true.</p>
           </div>
         </div>
-        <!-- <img class="big-img-dawg mt-3 mb-4"
-          src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-          alt="cover-img"> -->
       </div>
+      <span class="offset-1 col-10 rounded nav-buttons mt-2 mb-1">
+        <button class="nav-button selectable w-25">concert</button>
+        <button class="nav-button selectable w-25">convention</button>
+        <button class="nav-button selectable w-25">sport</button>
+        <button class="nav-button selectable w-25">digital</button>
+      </span>
       <div class="col-3" v-for="t in towerEvents" :key="t.id">
         <TowerEvent :towerEvent="t" />
       </div>
@@ -58,6 +61,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.nav-button {
+  background-color: #474c61;
+  color: whitesmoke;
+  border-top: 0px solid black;
+  border-left: 0px solid black;
+  border-right: 0px solid black;
+  border-bottom: 2px solid #8dff83a0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.nav-buttons {
+  background-color: #474c61;
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 2px 2px 2px black;
+}
+
 .cover-glass {
   background-color: rgba(128, 128, 128, 0);
   margin-right: 45vh;
