@@ -27,6 +27,11 @@ AppState.attendees = res.data
         const res = await api.get('api/events/' + eventId)
         AppState.towerEvent = new TowerEvent(res.data)
     }
+
+    async createEvent(data) {
+        const res = await api.post('api/events', data)
+        return res.data
+    }
 }
 
 export const towerEventsService = new TowerEventsService

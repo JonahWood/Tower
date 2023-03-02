@@ -7,7 +7,7 @@
                     <h5 class="ms-1 mt-1">{{ towerEvent.name }}</h5>
                     <h6 class="lighter-text-weight ms-1 mt-1">{{ towerEvent.location }}</h6>
                     <h6 class="lighter-text-weight ms-1 mt-1">On {{ new
-                        Date(towerEvent.startDate).toLocaleDateString('fr-ca') }}</h6>
+                        Date(towerEvent.startDate).toLocaleDateString() }}</h6>
                     <div v-if="(towerEvent.capacity > 0)">
                         <div class="d-flex justify-content-end me-2">
                             <h6 class="lighter-text-weight text-success-event">Spots Remaining: {{ towerEvent.capacity }}

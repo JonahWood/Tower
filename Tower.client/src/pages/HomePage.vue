@@ -92,7 +92,7 @@ export default {
 
 .cover-glass {
   background-color: rgba(128, 128, 128, 0);
-  margin-right: 45vh;
+  margin-right: 40vh;
 }
 
 

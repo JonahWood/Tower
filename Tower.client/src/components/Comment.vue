@@ -52,7 +52,6 @@ export default {
     border: 0px solid black;
     height: 5vh;
     width: 5vh;
-    margin-left: 115vh;
     margin-top: 3vh;
     color: white;
     background-color: #cf2600;
