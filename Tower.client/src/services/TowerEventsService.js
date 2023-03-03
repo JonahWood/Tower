@@ -18,10 +18,10 @@ class TowerEventsService {
         
     }
 
-    async getTickets(eventId){
-const res = await api.get('api/events/' + eventId + '/tickets')
-AppState.attendees = res.data
-return res.data
+    async getTicketsByEvent(eventId){
+        const res = await api.get('api/events/' + eventId + '/tickets')
+        AppState.activeUsers = res.data
+        logger.log(res.data)
     }
 
     async getOneEventById(eventId) {

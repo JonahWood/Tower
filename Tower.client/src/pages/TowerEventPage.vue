@@ -19,14 +19,14 @@
                                 class="ultra-margin">
                                 <h5>
                                     <span class="heavier-shadow text-success">{{ towerEvent.capacity }}</span>
-                                    spots left <button @click="getTicket()" class="Attend rounded bg-gradient">Attend <i
+                                    spots left <button @click="createTicket()" class="Attend rounded bg-gradient">Attend <i
                                             class="mdi mdi-plus-box"></i></button>
                                 </h5>
                             </div>
                             <div v-else class="ultra-margin">
                                 <h5>
                                     <span class="heavier-shadow text-danger">This event has been canceled.</span>
-                                    <button disabled @click="getTicket()" class="Attend rounded bg-gradient">Attend
+                                    <button disabled @click="createTicket()" class="Attend rounded bg-gradient">Attend
                                         <i class="mdi mdi-plus-box"></i></button>
                                 </h5>
                             </div>
@@ -104,18 +104,20 @@ export default {
             }
         }
 
-        async function getTickets() {
+        async function getTicketsByEvent() {
             try {
-                await towerEventsService.getTickets(route.params.eventId)
+                await towerEventsService.getTicketsByEvent(route.params.eventId)
             } catch (error) {
                 Pop.error(error.message)
                 logger.error(error)
             }
         }
+
+
         onMounted(() => {
             getOneEventById();
             getComments();
-            getTickets();
+            getTicketsByEvent();
         });
         watchEffect(() => {
             if (route.params.eventId) {
@@ -127,8 +129,8 @@ export default {
             account: computed(() => AppState.account),
             towerEvent: computed(() => AppState.towerEvent),
             comments: computed(() => AppState.comments),
-            attendees: computed(() => AppState.attendees),
-            isAttending: computed(() => AppState.attendees.find(a => a.accountId == AppState.account?.id)),
+            attendees: computed(() => AppState.activeUsers),
+            isAttending: computed(() => AppState.activeUsers.find(a => a.accountId == AppState.account?.id)),
             async cancelEvent() {
                 try {
                     await towerEventsService.cancelEvent(route.params.eventId)
@@ -140,20 +142,19 @@ export default {
 
 
 
-            async getTicket() {
-                try {
-                    await ticketsService.getTicket({ eventId: route.params.eventId })
-                } catch (error) {
-                    Pop.error(error.message)
-                    logger.error(error)
-                }
-            },
-
             async createComment() {
                 try {
                     liveComment.value.eventId = route.params.eventId
                     await commentsService.createComment(liveComment.value)
                     liveComment.value = {}
+                } catch (error) {
+                    Pop.error(error.message)
+                    logger.error(error)
+                }
+            },
+            async createTicket() {
+                try {
+                    await ticketsService.createTicket({ eventId: route.params.eventId })
                 } catch (error) {
                     Pop.error(error.message)
                     logger.error(error)
