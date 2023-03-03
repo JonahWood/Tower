@@ -18,7 +18,7 @@
 
 
                             <!-- LINK -->
-                            <div v-if="(towerEvent.capacity == 0) || (towerEvent.isCanceled) || (isAttending)"
+                            <div v-if="(towerEvent.capacity == 0) || (towerEvent.isCanceled) || (isAttending) || (towerEvent.creatorId == account.id)"
                                 class="ultra-margin">
                                 <h5>
                                     <span class="heavier-shadow text-danger">This event is no longer available.</span>
