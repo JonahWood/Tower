@@ -4,8 +4,8 @@
       <div class="offset-1 col-10 text-light">
         <div class="cover-card">
           <div class="cover-glass bg-gradient rounded">
-            <p class="">Get aHEAD of the scalpers.</p>
-            <p class="ms-3">Become one of the scalpers.</p>
+            <p class="ms-1">Get aHEAD of the scalpers.</p>
+            <p class="ms-4">Become one of the scalpers.</p>
             <p class="at-tower">Here at Tower, all your scalping dreams can come true.</p>
           </div>
         </div>
@@ -92,24 +92,24 @@ export default {
 
 .cover-glass {
   background-color: rgba(128, 128, 128, 0);
-  margin-right: 40vh;
+  width: 100%;
 }
 
 
 .cover-card {
   background-image: url(https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80);
   padding-top: 20vh;
-  padding-right: 20vh;
+  padding-right: 0vh;
   padding-bottom: 20vh;
-  padding-left: 6vh;
-  font-weight: 400;
+  padding-left: 0vh;
+  font-weight: 500;
   border: 2px solid #204051;
   background-position: center;
   background-size: cover;
 }
 
 .at-tower {
-  margin-left: 3.5vh;
+  margin-left: 4.5vh;
 }
 
 

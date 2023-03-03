@@ -30,9 +30,21 @@
                             <div v-else class="ultra-margin">
                                 <h5>
                                     <span class="heavier-shadow text-success">{{ towerEvent.capacity }}</span>
-                                    spots left <button @click="createTicket()" class="Attend rounded bg-gradient">Attend <i
+                                    spots left. <button @click="createTicket()" class="Attend rounded bg-gradient">Attend <i
                                             class="mdi mdi-plus-box"></i></button>
                                 </h5>
+                            </div>
+                            <div v-if="(isAttending)">
+                                <div v-if="towerEvent.capacity > 0">
+                                    <h6>
+                                        <span class='text-success'>{{ towerEvent.capacity }}</span> spots left.
+                                    </h6>
+                                </div>
+                                <div v-else>
+                                    <h6>
+                                        <span class='text-danger'>{{ towerEvent.capacity }}</span> spots left.
+                                    </h6>
+                                </div>
                             </div>
                             <!-- LINK -->
 
