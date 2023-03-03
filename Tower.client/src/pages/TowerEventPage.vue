@@ -15,38 +15,32 @@
                             </h2>
                             <h3 class="text-secondary">{{ towerEvent.location }}</h3>
                             <h6 class="lighter-text-weight">{{ towerEvent.description }}</h6>
-
+                            <h6 class="mt-3 fw-bold text-success">{{ new
+                                Date(towerEvent.startDate).toLocaleDateString() }}</h6>
 
                             <!-- LINK -->
-                            <div v-if="(towerEvent.capacity == 0) || (towerEvent.isCanceled) || (isAttending) || (towerEvent.creatorId == account.id)"
-                                class="ultra-margin">
+                            <div v-if="(towerEvent.capacity == 0) || (towerEvent.isCanceled)" class="ultra-margin">
                                 <h5>
-                                    <span class="heavier-shadow text-danger">This event is no longer available.</span>
-                                    <button disabled @click="createTicket()" class="Attend rounded bg-gradient">Attend
-                                        <i class="mdi mdi-plus-box"></i></button>
+                                    <span class="heavier-shadow text-danger">This event is no longer available. <span
+                                            v-if="towerEvent.capacity == 0">0 spots left.</span></span>
                                 </h5>
                             </div>
                             <!-- NOTE -->
                             <div v-else class="ultra-margin">
                                 <h5>
                                     <span class="heavier-shadow text-success">{{ towerEvent.capacity }}</span>
-                                    spots left. <button @click="createTicket()" class="Attend rounded bg-gradient">Attend <i
-                                            class="mdi mdi-plus-box"></i></button>
+                                    spots left.
                                 </h5>
                             </div>
-                            <div v-if="(isAttending)">
-                                <div v-if="towerEvent.capacity > 0">
-                                    <h6>
-                                        <span class='text-success'>{{ towerEvent.capacity }}</span> spots left.
-                                    </h6>
-                                </div>
-                                <div v-else>
-                                    <h6>
-                                        <span class='text-danger'>{{ towerEvent.capacity }}</span> spots left.
-                                    </h6>
-                                </div>
-                            </div>
                             <!-- LINK -->
+
+                            <button
+                                v-if="(towerEvent.capacity == 0) || (towerEvent.isCanceled) || (isAttending) || (towerEvent.creatorId == account.id)"
+                                disabled @click="createTicket()" class="Attend rounded bg-gradient">Attend
+                                <i class="mdi mdi-plus-box"></i></button>
+                            <button v-else @click="createTicket()" class="Attend rounded bg-gradient">Attend
+                                <i class="mdi mdi-plus-box"></i></button>
+
 
 
 
