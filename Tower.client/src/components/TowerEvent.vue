@@ -24,7 +24,7 @@
                     </div>
                     <div v-else-if="(towerEvent.capacity == 0)"
                         class="capacity-filled d-flex justify-content-center bg-gradient">
-                        <h5>FULL</h5>
+                        <h5>SOLD OUT</h5>
                     </div>
                 </div>
             </div>

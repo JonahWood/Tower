@@ -1,9 +1,9 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="offset-1 col-10 text-light">
+      <div class="offset-1 col-10 cc">
         <div class="cover-card">
-          <div class="cover-glass bg-gradient">
+          <div class="cover-glass ">
             <p class="ms-1">Get aHEAD of the scalpers.</p>
             <p class="ms-4">Become one of the scalpers.</p>
             <p class="at-tower">Here at Tower, all your scalping dreams can come true.</p>
@@ -77,6 +77,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.cc {
+  color: #CCF3FD;
+}
+
 .nav-button {
   background-color: #474c61;
   color: whitesmoke;
@@ -114,7 +118,7 @@ export default {
 
 
 .cover-card {
-  background-image: url(https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80);
+  background-image: url(coverImg.jpg);
   padding-top: 20vh;
   padding-right: 0vh;
   padding-bottom: 20vh;
