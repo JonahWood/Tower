@@ -2,7 +2,9 @@
     <span class="d-flex justify-content-start">
         <img :title="comment.creator.name" class="profile-picture" :src="comment.creator.picture"
             :alt="comment.creator.name">
-        <div class="comment-body ms-2 rounded"> {{ comment.body }}
+
+        <div class="comment-body ms-2 rounded">
+            <b>{{ comment.creator.name }}</b> says: {{ comment.body }}
             <div v-if="(comment.creatorId == account.id)">
                 <button class="delete-button rounded" @click="deleteComment(comment.id)" title="Delete Comment"><i
                         class="mdi mdi-delete"></i></button>

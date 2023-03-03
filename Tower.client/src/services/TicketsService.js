@@ -26,6 +26,8 @@ async removeTicket(ticketId){
     const res = await api.delete('api/tickets/' + ticketId)
     const i = AppState.myTickets.findIndex(t => t.id == ticketId)
     AppState.myTickets.splice(i, 1)
+    const index = AppState.activeUsers.findIndex(a => a.id == AppState.account.id)
+    AppState.activeUsers.splice(index, 1)
 }
 
 
