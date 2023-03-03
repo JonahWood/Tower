@@ -12,7 +12,7 @@
           <h3 class="your-tickets rounded">Your Tickets:</h3>
         </div>
         <div v-for="t in tickets" class="col-6">
-          <TowerEvent :towerEvent="t.event" />
+          <PersonalTowerEvent :towerEvent="t.event" :ticket="t" />
         </div>
       </div>
     </div>
@@ -24,6 +24,7 @@
 import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import TowerEvent from '../components/TowerEvent.vue'
+import PersonalTowerEvent from '../components/PersonalTowerEvent.vue'
 import UserTowerEvents from '../components/UserTowerEvents.vue'
 import { ticketsService } from '../services/TicketsService'
 import { logger } from '../utils/Logger'
