@@ -8,7 +8,11 @@
                             <img class="img-fluid top-img rounded" :src="towerEvent.coverImg" :alt="towerEvent.name">
                         </div>
                         <div class="col-8">
-                            <h2>{{ towerEvent.name }}</h2>
+                            <h2>{{ towerEvent.name }}
+                                <button v-if="(towerEvent?.creatorId == account?.id) && (!towerEvent.isCanceled)"
+                                    class="bg-danger bg-gradient text-light p-1 cancel rounded ms-1"
+                                    @click="cancelEvent()">Cancel Event?</button>
+                            </h2>
                             <h3 class="text-secondary">{{ towerEvent.location }}</h3>
                             <h6 class="lighter-text-weight">{{ towerEvent.description }}</h6>
                             <div v-if="(towerEvent.capacity > 0) && (!towerEvent.isCanceled) && (!isAttending)"
@@ -21,9 +25,8 @@
                             </div>
                             <div v-else class="ultra-margin">
                                 <h5>
-                                    <span class="heavier-shadow text-success">{{ towerEvent.capacity }}</span>
-                                    spots left <button disabled @click="getTicket()"
-                                        class="Attend rounded bg-gradient">Attend
+                                    <span class="heavier-shadow text-danger">This event has been canceled.</span>
+                                    <button disabled @click="getTicket()" class="Attend rounded bg-gradient">Attend
                                         <i class="mdi mdi-plus-box"></i></button>
                                 </h5>
                             </div>
@@ -121,10 +124,21 @@ export default {
         });
         return {
             liveComment,
+            account: computed(() => AppState.account),
             towerEvent: computed(() => AppState.towerEvent),
             comments: computed(() => AppState.comments),
             attendees: computed(() => AppState.attendees),
-            isAttending: computed(() => AppState.attendees.find(a => a.accountId == AppState.account.id)),
+            isAttending: computed(() => AppState.attendees.find(a => a.accountId == AppState.account?.id)),
+            async cancelEvent() {
+                try {
+                    await towerEventsService.cancelEvent(route.params.eventId)
+                } catch (error) {
+                    Pop.error(error.message)
+                    logger.error('cancelEvent:', error)
+                }
+            },
+
+
 
             async getTicket() {
                 try {
@@ -153,6 +167,11 @@ export default {
 
 
 <style lang="scss" scoped>
+.cancel {
+    font-size: large;
+    border: 0px solid black;
+}
+
 .profile-picture {
     height: 5vh;
     width: 5vh;

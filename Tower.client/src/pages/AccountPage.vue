@@ -7,8 +7,15 @@
       <div class="col-12">
         <img class="rounded dope-img" :src="account.picture" alt="" />
       </div>
+      <div class="row">
+        <div v-for="t in tickets" class="col-12">
+          <UserTowerEvents :towerEvent="t" />
+        </div>
+      </div>
+
+
       <!-- <div v-for="t in tickets" class="col-3 text-light rounded mb-2">
-        <TowerEvent :towerEvent="t.towerEvent" />
+        <TowerEvent :towerEvent="t?.towerEvent" />
       </div> -->
     </div>
 
@@ -19,6 +26,7 @@
 import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import TowerEvent from '../components/TowerEvent.vue'
+import UserTowerEvents from '../components/UserTowerEvents.vue'
 import { ticketsService } from '../services/TicketsService'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
@@ -26,6 +34,7 @@ export default {
   setup() {
     async function getTicketsByUser() {
       try {
+        logger.log('gettingticketsbyuser')
         await ticketsService.getTicketsByUser();
       }
       catch (error) {
@@ -41,7 +50,7 @@ export default {
       tickets: computed(() => AppState.myTickets)
     };
   },
-  components: { TowerEvent }
+  components: { TowerEvent, UserTowerEvents }
 }
 </script>
 

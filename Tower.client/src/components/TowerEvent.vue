@@ -6,6 +6,9 @@
                 <div>
                     <h5 class="ms-1 mt-1">{{ towerEvent.name }}</h5>
                     <h6 class="lighter-text-weight ms-1 mt-1">{{ towerEvent.location }}</h6>
+                    <h6 v-if="towerEvent.isCanceled" class="capacity-filled d-flex justify-content-center bg-gradient"><i
+                            class="mdi mdi-close-octagon"></i>This
+                        event has been canceled.</h6>
                     <h6 class="lighter-text-weight ms-1 mt-1">On {{ new
                         Date(towerEvent.startDate).toLocaleDateString() }}</h6>
                     <div v-if="(towerEvent.capacity > 0)">
@@ -14,13 +17,13 @@
                             </h6>
                         </div>
                     </div>
+                    <div v-else-if="(towerEvent.isCanceled == true)"
+                        class="capacity-filled d-flex justify-content-center bg-gradient">
+                        <h5>CANCELLED</h5>
+                    </div>
                     <div v-else-if="(towerEvent.capacity == 0)"
                         class="capacity-filled d-flex justify-content-center bg-gradient">
                         <h5>FULL</h5>
-                    </div>
-                    <div v-else-if="(towerEvent.isCanceled)"
-                        class="capacity-filled d-flex justify-content-center bg-gradient">
-                        <h5>CANCELLED</h5>
                     </div>
                 </div>
             </div>

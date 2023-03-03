@@ -2,6 +2,7 @@ import { TowerEvent } from "../models/TowerEvent"
 import { api } from "./AxiosService"
 import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger"
+import { applyStyles } from "@popperjs/core"
 
 class TowerEventsService {
 
@@ -20,6 +21,7 @@ class TowerEventsService {
     async getTickets(eventId){
 const res = await api.get('api/events/' + eventId + '/tickets')
 AppState.attendees = res.data
+return res.data
     }
 
     async getOneEventById(eventId) {
@@ -31,6 +33,16 @@ AppState.attendees = res.data
     async createEvent(data) {
         const res = await api.post('api/events', data)
         return res.data
+    }
+
+    async cancelEvent(eventId){
+        const res = await api.delete('api/events/' + eventId)
+        logger.log('event canceled',res.data)
+        let eventIndex = AppState.towerEvents.findIndex(t => t.id == eventId)
+        if (eventIndex >= 0) {
+            AppState.towerEvents.splice(eventIndex, 1)
+            AppState.towerEvent = res.data
+        }
     }
 }
 
