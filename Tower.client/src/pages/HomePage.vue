@@ -104,6 +104,8 @@ export default {
   padding-left: 6vh;
   font-weight: 400;
   border: 2px solid #204051;
+  background-position: center;
+  background-size: cover;
 }
 
 .at-tower {
