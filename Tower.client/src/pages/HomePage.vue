@@ -3,7 +3,7 @@
     <div class="row">
       <div class="offset-1 col-10 text-light">
         <div class="cover-card">
-          <div class="cover-glass bg-gradient rounded">
+          <div class="cover-glass bg-gradient">
             <p class="ms-1">Get aHEAD of the scalpers.</p>
             <p class="ms-4">Become one of the scalpers.</p>
             <p class="at-tower">Here at Tower, all your scalping dreams can come true.</p>
