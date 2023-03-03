@@ -4,7 +4,8 @@
             :style="{ backgroundImage: `url('${towerEvent.coverImg}')` }">
             <div class="towerEvent-text w-100">
                 <div>
-                    <h5 class="ms-1 mt-1">{{ towerEvent.name }}</h5>
+                    <h5 class="ms-1 mt-1">{{ towerEvent.name }} <i v-if="towerEvent.creatorId == account.id"
+                            class="mdi mdi-account"></i></h5>
                     <h6 class="lighter-text-weight ms-1 mt-1">{{ towerEvent.location }}</h6>
                     <h6 v-if="towerEvent.isCanceled" class="capacity-filled d-flex justify-content-center bg-gradient"><i
                             class="mdi mdi-close-octagon"></i>This
@@ -34,6 +35,7 @@
 
 <script>
 import { computed } from 'vue';
+import { AppState } from '../AppState';
 import { TowerEvent } from '../models/TowerEvent';
 
 
@@ -43,7 +45,9 @@ export default {
         towerEvent: { type: TowerEvent, required: true }
     },
     setup() {
-        return {}
+        return {
+            account: computed(() => AppState.account),
+        }
     }
 }
 </script>

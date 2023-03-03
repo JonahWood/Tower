@@ -15,21 +15,30 @@
                             </h2>
                             <h3 class="text-secondary">{{ towerEvent.location }}</h3>
                             <h6 class="lighter-text-weight">{{ towerEvent.description }}</h6>
-                            <div v-if="(towerEvent.capacity > 0) && (!towerEvent.isCanceled) && (!isAttending)"
+
+
+                            <!-- LINK -->
+                            <div v-if="(towerEvent.capacity == 0) || (towerEvent.isCanceled) || (isAttending)"
                                 class="ultra-margin">
+                                <h5>
+                                    <span class="heavier-shadow text-danger">This event is no longer available.</span>
+                                    <button disabled @click="createTicket()" class="Attend rounded bg-gradient">Attend
+                                        <i class="mdi mdi-plus-box"></i></button>
+                                </h5>
+                            </div>
+                            <!-- NOTE -->
+                            <div v-else class="ultra-margin">
                                 <h5>
                                     <span class="heavier-shadow text-success">{{ towerEvent.capacity }}</span>
                                     spots left <button @click="createTicket()" class="Attend rounded bg-gradient">Attend <i
                                             class="mdi mdi-plus-box"></i></button>
                                 </h5>
                             </div>
-                            <div v-else class="ultra-margin">
-                                <h5>
-                                    <span class="heavier-shadow text-danger">This event has been canceled.</span>
-                                    <button disabled @click="createTicket()" class="Attend rounded bg-gradient">Attend
-                                        <i class="mdi mdi-plus-box"></i></button>
-                                </h5>
-                            </div>
+                            <!-- LINK -->
+
+
+
+
                         </div>
                     </div>
                 </div>
