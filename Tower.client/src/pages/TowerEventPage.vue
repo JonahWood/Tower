@@ -251,6 +251,6 @@ export default {
 
 .lighter-text-weight {
     font-weight: 400;
-    text-shadow: 1px 1px 1px black;
+    text-shadow: 3px 3px 3px black;
 }
 </style>
