@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { Offcanvas } from 'bootstrap'
+import { Offcanvas, Modal } from 'bootstrap'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { AppState } from './AppState'
@@ -82,6 +82,7 @@ export default {
           const towerEvent = await towerEventsService.createEvent(newTowerEvent.value)
           router.push({ name: 'TowerEvent', params: { eventId: towerEvent.id } })
           newTowerEvent.value = {}
+          Modal.getOrCreateInstance('#exampleModal').hide()
         } catch (error) {
           Pop.error(error.message)
           logger.error(error)
