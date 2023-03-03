@@ -52,7 +52,7 @@
                 </select>
                 <label for="type">Type</label>
               </div>
-              <button type="submit" class="btn btn-outline-dark">Initialize Event</button>
+              <button type="submit" class="btn btn-outline-dark" data-dismiss="modal">Initialize Event</button>
             </form>
           </div>
         </div>
@@ -82,7 +82,6 @@ export default {
           const towerEvent = await towerEventsService.createEvent(newTowerEvent.value)
           router.push({ name: 'TowerEvent', params: { eventId: towerEvent.id } })
           newTowerEvent.value = {}
-          Offcanvas.getOrCreateInstance('#exampleModal').hide()
         } catch (error) {
           Pop.error(error.message)
           logger.error(error)

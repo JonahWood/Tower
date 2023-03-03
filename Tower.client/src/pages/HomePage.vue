@@ -11,11 +11,16 @@
         </div>
       </div>
       <span class="offset-1 col-10 rounded nav-buttons mt-2 mb-1">
-        <button @click="changeFilterType('')" class="nav-button selectable w-25">All</button>
-        <button @click="changeFilterType('concert')" class="nav-button selectable w-25">Concert</button>
-        <button @click="changeFilterType('convention')" class="nav-button selectable w-25">Convention</button>
-        <button @click="changeFilterType('sport')" class="nav-button selectable w-25">Sport</button>
-        <button @click="changeFilterType('digital')" class="nav-button selectable w-25">Digital</button>
+        <button @click="changeFilterType('')" class="nav-button selectable w-25"
+          :class="[filterType == '' ? 'nav-button-selected' : '']">All</button>
+        <button @click="changeFilterType('concert')" class="nav-button selectable w-25"
+          :class="[filterType == 'concert' ? 'nav-button-selected' : '']">Concert</button>
+        <button @click="changeFilterType('convention')" class="nav-button selectable w-25"
+          :class="[filterType == 'convention' ? 'nav-button-selected' : '']">Convention</button>
+        <button @click="changeFilterType('sport')" class="nav-button selectable w-25"
+          :class="[filterType == 'sport' ? 'nav-button-selected' : '']">Sport</button>
+        <button @click="changeFilterType('digital')" class="nav-button selectable w-25"
+          :class="[filterType == 'digital' ? 'nav-button-selected' : '']">Digital</button>
 
       </span>
       <div class="col-3" v-for="t in towerEvents" :key="t.id">
@@ -35,7 +40,7 @@ import TowerEvent from '../components/TowerEvent.vue';
 
 export default {
   setup() {
-    const filterType = ref("");
+    const filterType = ref('');
     async function getAllEvents() {
       try {
         await towerEventsService.getAllEvents();
@@ -49,6 +54,7 @@ export default {
       getAllEvents();
     });
     return {
+      filterType,
       towerEvents: computed(() => {
         if (!filterType.value) {
           return AppState.towerEvents;
@@ -78,6 +84,17 @@ export default {
   border-left: 0px solid black;
   border-right: 0px solid black;
   border-bottom: 0px solid #8dff83a0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.nav-button-selected {
+  background-color: #474c61;
+  color: #8dff83a0;
+  border-top: 0px solid black;
+  border-left: 0px solid black;
+  border-right: 0px solid black;
+  border-bottom: 2px solid #8dff83a0;
   margin-top: 5px;
   margin-bottom: 5px;
 }
