@@ -121,7 +121,7 @@ app.use(
 //recommended default error handler
 app.use((error, req, res, next) => {
   if (error.status == 500 || !error.status) {
-    error.message = console.error(error); // should write to external
+    error.message =console.error(error); // should write to external
   }
   error = error || {
     status: 400,
